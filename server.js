@@ -5,11 +5,9 @@ const keys = require('./keys');
 const WooCommerceAPI = require( 'woocommerce-api' );
 
 const app = express();
-const port = 3020;
+const port = 8080;
 
 const Api = new WooCommerceAPI( {
-  // url: 'https://worldsfasteststore.dev',
-  // verifySsl: false,
   url: 'https://worldsfasteststore.mystagingwebsite.com',
   consumerKey: keys.consumerKey,
   consumerSecret: keys.consumerSecret,
@@ -21,12 +19,15 @@ app.use( cors() );
 
 require( './api/routes' )( app, Api );
 
-app.listen( port, () => {
-  console.log('We are live on ' + port);
+const server = app.listen( port, () => {
+  const host = server.address().address;
+  const port = server.address().port;
+
+  console.log('Example app listening at http://' + host + ':' + port);
 });
 
 app.use( function( req, res, next ) {
-  res.header( 'Access-Control-Allow-Origin', 'http://127.0.0.1:8081' );
+  res.header( 'Access-Control-Allow-Origin', 'https://worlds-fastest-store.appspot.com' );
   res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );
   next();
 } );
