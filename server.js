@@ -1,3 +1,4 @@
+const apicache = require('apicache');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
@@ -8,7 +9,7 @@ const app = express();
 const port = 8080;
 
 const Api = new WooCommerceAPI( {
-  url: 'https://worldsfasteststore.mystagingwebsite.com',
+  url: 'https://jonathan-belcher.com',
   consumerKey: keys.consumerKey,
   consumerSecret: keys.consumerSecret,
   wpAPI: true,
@@ -16,6 +17,9 @@ const Api = new WooCommerceAPI( {
 } );
 
 app.use( cors() );
+
+let cache = apicache.middleware;
+app.use( cache('1 day') );
 
 require( './api/routes' )( app, Api );
 
